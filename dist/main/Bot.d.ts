@@ -1,8 +1,9 @@
+import * as events from "events";
 import { Manager } from "../api/Manager";
-export declare class Bot {
+export declare class Bot extends events.EventEmitter {
     token: string;
-    ws: Manager;
+    manager: Manager;
     constructor(token: string);
-    up(): void;
+    connect(): void;
 }
 //# sourceMappingURL=Bot.d.ts.map
