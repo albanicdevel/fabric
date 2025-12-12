@@ -1,0 +1,24 @@
+{
+  "name": "@fabric-devel/fabric-api",
+  "version": "0.0.2",
+  "description": "",
+  "main": "./dist/exports.js",
+  "module": "./dist/exports.js",
+  "exports": {
+    ".": {
+      "import": "./dist/export.js",
+      "require": "./dist/export.cjs",
+      "types": "./dist/export.d.ts"
+    }
+  },
+  "types": "./dist/export.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^24.10.1",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.3"
+  }
+}
