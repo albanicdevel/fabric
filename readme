@@ -1,10 +1,11 @@
 hi guys. felt confident and therefore created "fabric-api".
 
-How to use?
+*How to use?*
 
 ```ts
 import { Bot } from "@fabric-devel/fabric-api";
 
-const client = new Bot("TOKEN_HERE");
-client.up();
+const bot = new Bot("TOKEN");
+bot.on("EVENT", (d) => {...});
+bot.connect();
 ```
