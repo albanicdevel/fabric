@@ -1,3 +1,4 @@
+import { Renderable, RenderContext } from "../../futures/IRenderable";
 import { IMessageOption } from "../interfaces/IEvents";
 import { IMessageService } from "./IMessageService";
 export declare class MessageService implements IMessageService {
@@ -11,6 +12,7 @@ export declare class MessageService implements IMessageService {
     purgeLast(channelId: string, count: number): Promise<void>;
     purgeFirst(channelId: string, count: number): Promise<void>;
     editMessage(channelId: string, messageId: string, content: string): Promise<void>;
+    sendRenderable(channelId: string, renderable: Renderable<any>, ctx: RenderContext): Promise<void>;
     private post;
     private normalizedOptions;
 }

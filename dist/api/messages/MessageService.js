@@ -92,6 +92,12 @@ class MessageService {
             throw new Error(`Discord error: ${res.statusText} - ${text}`);
         }
     }
+    async sendRenderable(channelId, renderable, ctx) {
+        const payload = renderable.render(ctx);
+        await this.post(`${this.apiBase}/channels/${channelId}/messages`, {
+            embeds: Array.isArray(payload) ? payload : [payload]
+        });
+    }
     async post(path, body) {
         const res = await (0, node_fetch_1.default)(path, {
             method: "POST",

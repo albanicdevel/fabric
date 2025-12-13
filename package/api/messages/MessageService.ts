@@ -1,3 +1,4 @@
+import { Renderable, RenderContext } from "../../futures/IRenderable";
 import { bulkMessage } from "../interfaces/gateway";
 import { IMessageOption } from "../interfaces/IEvents";
 import { IMessageService } from "./IMessageService";
@@ -101,6 +102,12 @@ export class MessageService implements IMessageService {
         }
     }
 
+    public async sendRenderable(channelId: string, renderable: Renderable<any>, ctx: RenderContext): Promise<void> {
+        const payload = renderable.render(ctx);
+        await this.post(`${this.apiBase}/channels/${channelId}/messages`, {
+            embeds: Array.isArray(payload) ? payload : [payload]
+        });
+    }
     private async post(path: string, body: object): Promise<any> {
         const res = await fetch(path, {
             method: "POST",
