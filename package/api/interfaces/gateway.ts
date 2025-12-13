@@ -1,26 +1,25 @@
 import { Intents } from "./EIntents";
 
 export interface GatewayPayload<D = any> {
-    op: number,
-    d: D,
-    s: number | null,
-    t: string | null
-};
+    op: number;
+    d: D;
+    s: number | null;
+    t: string | null;
+}
 
 export interface HelloData {
-    heartbeat_interval: number
-};
+    heartbeat_interval: number;
+}
 
 export interface IdentifyData {
-    token: string,
-    intents: Intents | number,
+    token: string;
+    intents: number;
     properties: {
-        $os: string,
-        $browser: string,
-        $device: string
+        $os: string;
+        $browser: string;
+        $device: string;
     };
-};
-
+}
 
 export enum OpCode {
     Dispatch = 0,
@@ -29,4 +28,4 @@ export enum OpCode {
     Resume = 6,
     Hello = 10,
     HeartbeatAck = 11
-};
+}
