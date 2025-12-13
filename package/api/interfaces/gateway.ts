@@ -12,13 +12,8 @@ export interface HelloData {
 }
 
 export interface IdentifyData {
-<<<<<<< HEAD
     token: string;
-    intents: number;
-=======
-    token: string,
-    intents: Intents[] | number,
->>>>>>> af45ca1 (Patching lib)
+    intents: Intents[] | number;
     properties: {
         $os: string;
         $browser: string;

@@ -1,3 +1,6 @@
 /node_modules
 /main.ts
 /main.js
+/package/*.js
+/package/api/*.js
+/package/interfaces/*.js

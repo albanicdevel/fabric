@@ -20,7 +20,19 @@ export class MessageService implements IMessageService {
                     message_id: messageId
                 }
             });
-        } 
+        }
+    
+    public async purgeDelete(channelId: string, messageIds: string[]): Promise<void>{
+        if(messageIds.length === 0) return;
+        if(messageIds.length > 100) {
+            throw new Error("I cannot delete more than 100 messages at once.");
+        }
+
+        await this.post(`${this.apiBase}/channels/${channelId}/messages/bulk-delete`, {
+            messages: messageIds
+        });
+    }
+    
     private async post(path: string, body: object): Promise<void> {
         const res = await fetch(path, {
             method: "POST",
