@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export interface IUser {
     id: string;
     username: string;
@@ -37,3 +38,32 @@ export interface IDiscordEvents {
     messageCreate: IMessage;
     heartbeatAck: void;
 }
+=======
+export interface IMessage {
+    id: string,
+    content: string,
+    author: {
+        id: string,
+        username: string,
+        discriminator: string,
+        bot?: boolean
+    },
+    channel: {
+        id: string,
+        name?: string
+    },
+    guild?: {
+        id: string,
+        name?: string
+    }
+}
+
+export interface IReady {
+    user: {
+        id: string,
+        username: string,
+        discriminator: string,
+        bot: boolean
+    }
+}
+>>>>>>> af45ca1 (Patching lib)
