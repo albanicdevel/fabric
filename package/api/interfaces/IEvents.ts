@@ -37,3 +37,17 @@ export interface IDiscordEvents {
     messageCreate: IMessage;
     heartbeatAck: void;
 }
+
+export interface IMessageOption {
+    content?: string,
+    tts?: boolean,
+    embeds?: any[],
+    allowedMentions?: {
+        parse?: ("users" | "roles" | "everyone")[],
+        users?: string[],
+        roles?: string[],
+        repliedUsers?: boolean
+    },
+    components?: any[],
+    flags?: number;
+}

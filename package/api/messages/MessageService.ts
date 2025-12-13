@@ -1,25 +1,23 @@
 import { bulkMessage } from "../interfaces/gateway";
-import { IMessage } from "../interfaces/IEvents";
+import { IMessageOption } from "../interfaces/IEvents";
 import { IMessageService } from "./IMessageService";
 import fetch from "node-fetch";
 export class MessageService implements IMessageService {
     private readonly apiBase = "https://discord.com/api/v10";
     constructor(private token: string) {};
 
-    public async send(channelId: string, content: string): Promise<void> {
-        await this.post(`${this.apiBase}/channels/${channelId}/messages`, {
-            content
-        });
+    public async send(channelId: string, options: IMessageOption): Promise<void> {
+        await this.post(`${this.apiBase}/channels/${channelId}/messages`, this.normalizedOptions(options));
     }
 
     public async reply(
         channelId: string,
         messageId: string,
-        content: string): Promise<void> {
-            await this.post(`${this.apiBase}/channels/${channelId}/messages`, {
-                content,
+        options: IMessageOption): Promise<void> {
+            return await this.post(`${this.apiBase}/channels/${channelId}/messages/${messageId}`, {
+                ...this.normalizedOptions(options),
                 message_reference: {
-                    message_id: messageId
+                    messsage_id: messageId
                 }
             });
         }
@@ -103,7 +101,7 @@ export class MessageService implements IMessageService {
         }
     }
 
-    private async post(path: string, body: object): Promise<void> {
+    private async post(path: string, body: object): Promise<any> {
         const res = await fetch(path, {
             method: "POST",
             headers: {
@@ -117,6 +115,22 @@ export class MessageService implements IMessageService {
             const text = await res.text();
             throw new Error(`
                 Dsicrord Error: ${res.status} - ${text}`);
+        }
+    }
+
+    private normalizedOptions(options: IMessageOption) {
+        return {
+            content: options.content,
+            tts: options.tts,
+            embeds: options.embeds,
+            components: options.components,
+            flags: options.flags,
+            allowed_parse: options.allowedMentions ? {
+                parse: options.allowedMentions.parse,
+                users: options.allowedMentions.users,
+                roles: options.allowedMentions.roles,
+                repliedUsers: options.allowedMentions.repliedUsers
+            } : undefined
         }
     }
 }

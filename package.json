@@ -1,6 +1,6 @@
 {
   "name": "@fabric-devel/fabric-api",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Discord lib for you.",
   "main": "./dist/exports.js",
   "module": "./dist/exports.js",
@@ -12,7 +12,12 @@
     }
   },
   "types": "./dist/export.d.ts",
-  "keywords": ["discord", "fabric", "fabric-devel", "albanic-devel"],
+  "keywords": [
+    "discord",
+    "fabric",
+    "fabric-devel",
+    "albanic-devel"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

@@ -1,6 +1,8 @@
+import { IMessageOption } from "../interfaces/IEvents";
+
 export interface IMessageService {
-    send(channelId: string, content: string): Promise<void>;
-    reply(channelId: string, messageId: string, content: string): Promise<void>;
+    send(channelId: string, options: IMessageOption): Promise<void>;
+    reply(channelId: string, messageId: string, options: IMessageOption): Promise<void>;
     purgeDelete(channelId: string, messageIds: string[]): Promise<void>;
     deleteMesssage(ChannelId: string, messageId: string): Promise<void>;
     editMessage(channelId: string, messageId: string, content: string): Promise<void>;
