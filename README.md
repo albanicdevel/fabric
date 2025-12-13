@@ -4,7 +4,7 @@ hi guys. felt confident and therefore created "fabric-api".
 *How to use?*
 
 ```ts
-import { Bot, IMessage, Intents, IReady } from './package/export';
+import { Bot, IMessage, Intents, IReady } from '@fabric-devel/fabric-api';
 
 const bot = new Bot("", [Intents.MESSAGE_CONTENT, Intents.GUILD_MESSAGES]);
 
