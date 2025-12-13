@@ -35,22 +35,22 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Manager = void 0;
 const wss = __importStar(require("ws"));
-const gateway_1 = require("./interfaces/gateway");
 const events = __importStar(require("events"));
+const gateway_1 = require("./interfaces/gateway");
 class Manager extends events.EventEmitter {
     constructor(token, intents) {
         super();
         this.token = token;
         this.intents = intents;
         this.sequence = null;
-        this.gtwUrl = "wss://gateway.discord.gg/?v=10&encoding=json";
+        this.gatewayUrl = "wss://gateway.discord.gg/?v=10&encoding=json";
     }
     connect() {
-        this.ws = new wss.WebSocket(this.gtwUrl);
+        this.ws = new wss.WebSocket(this.gatewayUrl);
         this.ws.on("open", () => console.log("Connected to Discord Gateway"));
         this.ws.on("message", (data) => this.onMessage(data.toString()));
-        this.ws.on("close", (c, r) => {
-            console.log(`Disconnected from websocket - ${c}: reason: ${r.toString()}`);
+        this.ws.on("close", (code, reason) => {
+            console.log(`Disconnected - ${code}: ${reason.toString()}`);
             if (this.heartbeatInterval)
                 clearInterval(this.heartbeatInterval);
             setTimeout(() => this.connect(), 5000);
@@ -59,12 +59,7 @@ class Manager extends events.EventEmitter {
     send(payload) {
         if (!this.ws || this.ws.readyState !== wss.WebSocket.OPEN)
             return;
-        try {
-            this.ws.send(JSON.stringify(payload));
-        }
-        catch (e) {
-            console.error(e);
-        }
+        this.ws.send(JSON.stringify(payload));
     }
     onMessage(raw) {
         const payload = JSON.parse(raw);
@@ -73,18 +68,33 @@ class Manager extends events.EventEmitter {
         switch (payload.op) {
             case gateway_1.OpCode.Hello:
                 this.startHeartbeat(payload.d.heartbeat_interval);
-                if (this.sessionId)
-                    this.resume();
                 this.identify();
                 break;
             case gateway_1.OpCode.HeartbeatAck:
-                console.log("Heartbeat ACK");
+                this.emit("heartbeatAck");
                 break;
             case gateway_1.OpCode.Dispatch:
-                if (payload.t === "READY")
+                if (payload.t === "READY") {
                     this.sessionId = payload.d.session_id;
-                if (payload.t)
-                    this.emit(payload.t, payload.d);
+                    const client = { user: payload.d.user };
+                    this.emit("ready", client);
+                }
+                if (payload.t === "MESSAGE_CREATE") {
+                    const d = payload.d;
+                    const msg = {
+                        id: d.id,
+                        content: d.content,
+                        author: d.author,
+                        channel: { id: d.channel_id },
+                        guild: d.guild_id ? { id: d.guild_id } : undefined,
+                        timestamp: d.timestamp,
+                        editedTimestamp: d.edited_timestamp,
+                        tts: d.tts,
+                        mentionEveryone: d.mention_everyone,
+                        mentions: d.mentions
+                    };
+                    this.emit("messageCreate", msg);
+                }
                 break;
         }
     }
@@ -96,33 +106,18 @@ class Manager extends events.EventEmitter {
         }, interval);
     }
     identify() {
+        const intentBits = this.intents.reduce((acc, i) => acc | i, 0);
         const payload = {
             op: gateway_1.OpCode.Identify,
             d: {
                 token: this.token,
-                intents: this.intents,
-                properties: {
-                    $os: "fabric",
-                    $browser: "fabric",
-                    $device: "fabric"
-                }
+                intents: intentBits,
+                properties: { $os: "fabric", $browser: "fabric", $device: "fabric" }
             },
             s: null,
             t: null
         };
         this.send(payload);
-    }
-    resume() {
-        if (!this.sessionId) {
-            this.send({
-                op: gateway_1.OpCode.Resume,
-                d: {
-                    token: this.token,
-                    session_id: this.sessionId,
-                    seq: this.sequence
-                },
-            });
-        }
     }
 }
 exports.Manager = Manager;

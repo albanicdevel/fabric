@@ -10,7 +10,7 @@ export interface HelloData {
 }
 export interface IdentifyData {
     token: string;
-    intents: Intents | number;
+    intents: Intents[] | number;
     properties: {
         $os: string;
         $browser: string;
@@ -24,5 +24,8 @@ export declare enum OpCode {
     Resume = 6,
     Hello = 10,
     HeartbeatAck = 11
+}
+export interface bulkMessage {
+    id: string;
 }
 //# sourceMappingURL=gateway.d.ts.map

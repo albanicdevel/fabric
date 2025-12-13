@@ -1,9 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OpCode = void 0;
-;
-;
-;
 var OpCode;
 (function (OpCode) {
     OpCode[OpCode["Dispatch"] = 0] = "Dispatch";
@@ -13,5 +10,4 @@ var OpCode;
     OpCode[OpCode["Hello"] = 10] = "Hello";
     OpCode[OpCode["HeartbeatAck"] = 11] = "HeartbeatAck";
 })(OpCode || (exports.OpCode = OpCode = {}));
-;
 //# sourceMappingURL=gateway.js.map

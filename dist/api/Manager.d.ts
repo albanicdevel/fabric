@@ -6,14 +6,13 @@ export declare class Manager extends events.EventEmitter {
     private ws?;
     private heartbeatInterval?;
     private sequence;
-    private readonly gtwUrl;
     private sessionId?;
-    constructor(token: string, intents: Intents);
+    private readonly gatewayUrl;
+    constructor(token: string, intents: Intents[]);
     connect(): void;
     private send;
     private onMessage;
     private startHeartbeat;
     private identify;
-    private resume;
 }
 //# sourceMappingURL=Manager.d.ts.map

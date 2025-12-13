@@ -44,9 +44,14 @@ class Bot extends events.EventEmitter {
         this.intents = intents;
         this.manager = new Manager_1.Manager(token, intents);
         this.message = new MessageService_1.MessageService(token);
-        this.manager.on("READY", (data) => this.emit("ready", data));
-        this.manager.on("MESSAGE_CREATE", (data) => this.emit("MessageCreate", data));
-        this.manager.on("heartbeat_ack", () => this.emit("heartbeat_ack"));
+        this.manager.on("ready", (client) => {
+            this.id = client.user.id;
+            this.username = client.user.username;
+            this.discriminator = client.user.discriminator;
+            this.emit("ready", client);
+        });
+        this.manager.on("messageCreate", (msg) => this.emit("messageCreate", msg));
+        this.manager.on("heartbeatAck", () => this.emit("heartbeatAck"));
     }
     connect() {
         this.manager.connect();

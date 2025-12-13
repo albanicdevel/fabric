@@ -1,0 +1,1 @@
+{"version":3,"file":"IBot.d.ts","sourceRoot":"","sources":["../../../package/api/interfaces/IBot.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,YAAY,CAAC;AAErC,MAAM,WAAW,IAAI;IACjB,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,CAAC,EAAE,MAAM,CAAC;IAClB,EAAE,CAAC,EAAE,MAAM,CAAC;IACZ,aAAa,CAAC,EAAE,MAAM,CAAC;IACvB,OAAO,EAAE,OAAO,EAAE,CAAA;CACrB"}
