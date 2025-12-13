@@ -1,4 +1,4 @@
-[icon](/icon/icon.png)
+![icon](/icon/icon.png)
 hi guys. felt confident and therefore created "fabric-api".
 
 *How to use?*
