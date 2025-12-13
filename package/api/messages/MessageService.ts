@@ -18,7 +18,7 @@ export class MessageService implements IMessageService {
             return await this.post(`${this.apiBase}/channels/${channelId}/messages/${messageId}`, {
                 ...this.normalizedOptions(options),
                 message_reference: {
-                    messsage_id: messageId
+                    message_id: messageId
                 }
             });
         }
