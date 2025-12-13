@@ -29,3 +29,7 @@ export enum OpCode {
     Hello = 10,
     HeartbeatAck = 11
 }
+
+export interface bulkMessage {
+    id: string;
+}
