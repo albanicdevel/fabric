@@ -1,3 +1,5 @@
+import { Intents } from "./EIntents";
+
 export interface GatewayPayload<D = any> {
     op: number,
     d: D,
@@ -11,7 +13,7 @@ export interface HelloData {
 
 export interface IdentifyData {
     token: string,
-    intents: number,
+    intents: Intents | number,
     properties: {
         $os: string,
         $browser: string,

@@ -1,6 +1,7 @@
 import * as wss from "ws";
 import { GatewayPayload, IdentifyData, OpCode } from "./interfaces/gateway";
 import * as events from "events";
+import { Intents } from "./interfaces/EIntents";
 
 export class Manager extends events.EventEmitter {
     private ws?: wss.WebSocket;
@@ -8,7 +9,7 @@ export class Manager extends events.EventEmitter {
     private sequence: number | null = null;
     private readonly gtwUrl = "wss://gateway.discord.gg/?v=10&encoding=json";
     private sessionId?: number;
-    constructor(private token: string) {
+    constructor(private token: string, private intents: Intents) {
         super();
     }
 
@@ -66,7 +67,7 @@ export class Manager extends events.EventEmitter {
             op: OpCode.Identify,
             d: {
                 token: this.token,
-                intents: 513,
+                intents: this.intents,
                 properties: {
                     $os: "fabric",
                     $browser: "fabric",

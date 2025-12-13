@@ -1,6 +1,6 @@
 {
   "name": "@fabric-devel/fabric-api",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "",
   "main": "./dist/exports.js",
   "module": "./dist/exports.js",
@@ -16,9 +16,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-fetch": "^3.3.2",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
     "@types/node": "^24.10.1",
     "@types/ws": "^8.18.1",
-    "typescript": "^5.9.3",
-    "ws": "^8.18.3"
+    "typescript": "^5.9.3"
   }
 }

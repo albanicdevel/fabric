@@ -1,3 +1,3 @@
 import { Bot }  from "./main/Bot";
-
-export  { Bot };
+import { Intents } from "./api/interfaces/EIntents";
+export  { Bot, Intents };
