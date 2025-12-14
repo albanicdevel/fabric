@@ -1,6 +1,6 @@
 {
   "name": "@fabric-devel/fabric-api",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Discord lib for you.",
   "main": "./dist/exports.js",
   "module": "./dist/exports.js",
