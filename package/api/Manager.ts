@@ -1,12 +1,16 @@
 import * as wss from "ws";
-import { HelloPayload, IdentifyPayload, RawPayload } from "../interfaces/Payload";
+import { DispatchPayload, IdentifyPayload, RawPayload } from "../interfaces/Payload";
 import { OpCode } from "../interfaces/OpCode";
-export class Manager  {
+import EventEmitter from "events";
+
+export class Manager extends EventEmitter {
     private ws?: wss.WebSocket;
     private readonly gatewayUrl = "wss://gateway.discord.gg/?v=10&encoding=json";
     private token: string;
     private heartbeatInterval?: NodeJS.Timeout;
     constructor(token: string) {
+        super();
+
         this.token = token;
         this.ws = new wss.WebSocket(this.gatewayUrl);
         this.ws.on("open", () => {
@@ -28,6 +32,7 @@ export class Manager  {
                     break;
                 case OpCode.Dispatch:
                     // we have event (t = event, d = data event)
+                    
                     break;
             }
         });
