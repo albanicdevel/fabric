@@ -108,6 +108,7 @@ export class MessageService implements IMessageService {
             embeds: Array.isArray(payload) ? payload : [payload]
         });
     }
+    
     private async post(path: string, body: object): Promise<any> {
         const res = await fetch(path, {
             method: "POST",
