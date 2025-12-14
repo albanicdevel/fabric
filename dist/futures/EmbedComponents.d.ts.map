@@ -1,1 +1,0 @@
-{"version":3,"file":"EmbedComponents.d.ts","sourceRoot":"","sources":["../../package/futures/EmbedComponents.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAClC,OAAO,EAAE,UAAU,EAAE,aAAa,EAAE,MAAM,eAAe,CAAC;AAE1D,8BAAsB,cAAe,YAAW,UAAU,CAAC,MAAM,CAAC;IAC9D,QAAQ,CAAC,MAAM,CAAC,GAAG,EAAE,aAAa,GAAG,MAAM;CAC9C"}

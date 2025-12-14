@@ -1,87 +1,56 @@
 import * as wss from "ws";
-import * as events from "events";
-import { OpCode } from "./interfaces/gateway";
-export class Manager extends events.EventEmitter {
-    constructor(token, intents) {
-        super();
-        this.token = token;
-        this.intents = intents;
-        this.sequence = null;
+import { OpCode } from "../interfaces/OpCode";
+export class Manager {
+    constructor(token) {
         this.gatewayUrl = "wss://gateway.discord.gg/?v=10&encoding=json";
-    }
-    connect() {
+        this.token = token;
         this.ws = new wss.WebSocket(this.gatewayUrl);
-        this.ws.on("open", () => console.log("Connected to Discord Gateway"));
-        this.ws.on("message", (data) => this.onMessage(data.toString()));
-        this.ws.on("close", (code, reason) => {
-            console.log(`Disconnected - ${code}: ${reason.toString()}`);
-            if (this.heartbeatInterval)
-                clearInterval(this.heartbeatInterval);
-            setTimeout(() => this.connect(), 5000);
+        this.ws.on("open", () => {
+            console.log("Connected to discord gateway.");
         });
     }
-    send(payload) {
-        if (!this.ws || this.ws.readyState !== wss.WebSocket.OPEN)
-            return;
-        this.ws.send(JSON.stringify(payload));
+    /**
+     * Send hello to discord gateway and get dispatch (notif of event)
+     */
+    connect() {
+        this.ws?.on("message", (data) => {
+            const payload = JSON.parse(data.toString());
+            switch (payload.op) {
+                case OpCode.Hello:
+                    const interval = payload.d.heartbeat_interval;
+                    this.startHeartbeat(interval);
+                    this.identify();
+                    break;
+                case OpCode.Dispatch:
+                    // we have event (t = event, d = data event)
+                    break;
+            }
+        });
     }
-    onMessage(raw) {
-        const payload = JSON.parse(raw);
-        if (payload.s !== null)
-            this.sequence = payload.s;
-        switch (payload.op) {
-            case OpCode.Hello:
-                this.startHeartbeat(payload.d.heartbeat_interval);
-                this.identify();
-                break;
-            case OpCode.HeartbeatAck:
-                this.emit("heartbeatAck");
-                break;
-            case OpCode.Dispatch:
-                if (payload.t === "READY") {
-                    this.sessionId = payload.d.session_id;
-                    const client = { user: payload.d.user };
-                    this.emit("ready", client);
-                }
-                if (payload.t === "MESSAGE_CREATE") {
-                    const d = payload.d;
-                    const msg = {
-                        id: d.id,
-                        content: d.content,
-                        author: d.author,
-                        channel: { id: d.channel_id },
-                        guild: d.guild_id ? { id: d.guild_id } : undefined,
-                        timestamp: d.timestamp,
-                        editedTimestamp: d.edited_timestamp,
-                        tts: d.tts,
-                        mentionEveryone: d.mention_everyone,
-                        mentions: d.mentions
-                    };
-                    this.emit("messageCreate", msg);
-                }
-                break;
-        }
-    }
-    startHeartbeat(interval) {
-        if (this.heartbeatInterval)
-            clearInterval(this.heartbeatInterval);
-        this.heartbeatInterval = setInterval(() => {
-            this.send({ op: OpCode.Heartbeat, d: this.sequence });
-        }, interval);
-    }
+    /** Send identify (OpcCode.Identify) to discord */
     identify() {
-        const intentBits = this.intents.reduce((acc, i) => acc | i, 0);
-        const payload = {
+        const identify = {
             op: OpCode.Identify,
             d: {
-                token: this.token,
-                intents: intentBits,
-                properties: { $os: "fabric", $browser: "fabric", $device: "fabric" }
-            },
-            s: null,
-            t: null
+                token: `Bot ${this.token}`,
+                intents: 513,
+                properties: {
+                    $os: "fabric",
+                    $browser: "fabric",
+                    $device: "fabric"
+                }
+            }
         };
-        this.send(payload);
+        this.ws?.send(JSON.stringify(identify));
+    }
+    /**
+     * Regular sending heartbeat(Opcode.Heartbeat = 1)
+     * @param {number} interval for next heartbeat
+     */
+    startHeartbeat(interval) {
+        this.heartbeatInterval = setInterval(() => {
+            this.ws?.send(JSON.stringify({ op: OpCode.Heartbeat, d: null }));
+        }, interval);
     }
 }
 //# sourceMappingURL=Manager.js.map

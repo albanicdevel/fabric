@@ -1,0 +1,1 @@
+{"version":3,"file":"OpCode.d.ts","sourceRoot":"","sources":["../../package/interfaces/OpCode.ts"],"names":[],"mappings":"AAAA,mEAAmE;AACnE,oBAAY,MAAM;IACd,QAAQ,IAAI,CAAE,qBAAqB;IACnC,SAAS,IAAI,CAAE,kBAAkB;IACjC,QAAQ,IAAI,CAAE,sBAAsB;IACpC,KAAK,KAAK,CAAE,sCAAsC;IAClD,YAAY,KAAK;CACpB"}
