@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Intents = void 0;
-var Intents;
+export var Intents;
 (function (Intents) {
     Intents[Intents["GUILDS"] = 1] = "GUILDS";
     Intents[Intents["GUILD_MEMBERS"] = 2] = "GUILD_MEMBERS";
@@ -19,5 +16,5 @@ var Intents;
     Intents[Intents["DIRECT_MESSAGE_REACTIONS"] = 8192] = "DIRECT_MESSAGE_REACTIONS";
     Intents[Intents["DIRECT_MESSAGE_TYPING"] = 16384] = "DIRECT_MESSAGE_TYPING";
     Intents[Intents["MESSAGE_CONTENT"] = 32768] = "MESSAGE_CONTENT";
-})(Intents || (exports.Intents = Intents = {}));
+})(Intents || (Intents = {}));
 //# sourceMappingURL=EIntents.js.map

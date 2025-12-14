@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageService = void 0;
-const node_fetch_1 = __importDefault(require("node-fetch"));
-class MessageService {
+import fetch from "node-fetch";
+export class MessageService {
     constructor(token) {
         this.token = token;
         this.apiBase = "https://discord.com/api/v10";
@@ -33,7 +27,7 @@ class MessageService {
         });
     }
     async deleteMesssage(ChannelId, messageId) {
-        const res = await (0, node_fetch_1.default)(`${this.apiBase}/channels/${ChannelId}/messages/${messageId}`, {
+        const res = await fetch(`${this.apiBase}/channels/${ChannelId}/messages/${messageId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bot ${this.token}`,
@@ -49,7 +43,7 @@ class MessageService {
     async purgeLast(channelId, count) {
         if (count <= 0)
             return;
-        const res = await (0, node_fetch_1.default)(`${this.apiBase}/channels/${channelId}/messages?limit=${count}`, {
+        const res = await fetch(`${this.apiBase}/channels/${channelId}/messages?limit=${count}`, {
             method: "GET",
             headers: { "Authorization": `Bot ${this.token}` }
         });
@@ -64,7 +58,7 @@ class MessageService {
     async purgeFirst(channelId, count) {
         if (count <= 0)
             return;
-        const res = await (0, node_fetch_1.default)(`${this.apiBase}/channels/${channelId}/messages?limit=${count}`, {
+        const res = await fetch(`${this.apiBase}/channels/${channelId}/messages?limit=${count}`, {
             method: "GET",
             headers: {
                 "Authorization": `Bot ${this.token}`,
@@ -79,7 +73,7 @@ class MessageService {
         await this.purgeDelete(channelId, ids);
     }
     async editMessage(channelId, messageId, content) {
-        const res = await (0, node_fetch_1.default)(`${this.apiBase}/channels/${channelId}/messages/${messageId}`, {
+        const res = await fetch(`${this.apiBase}/channels/${channelId}/messages/${messageId}`, {
             method: "PATCH",
             headers: {
                 "Authorization": `Bot ${this.token}`,
@@ -99,7 +93,7 @@ class MessageService {
         });
     }
     async post(path, body) {
-        const res = await (0, node_fetch_1.default)(path, {
+        const res = await fetch(path, {
             method: "POST",
             headers: {
                 "Authorization": `Bot ${this.token}`,
@@ -129,5 +123,4 @@ class MessageService {
         };
     }
 }
-exports.MessageService = MessageService;
 //# sourceMappingURL=MessageService.js.map
